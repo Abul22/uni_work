@@ -2,8 +2,10 @@
 *.class
 *.pdf
 *.zip
-*.png
 *.caf
+*/DreamCatcher/DreamCatcher/*/*.png
+*.bundle
+
 
 # osx noise
 .DS_Store
