@@ -1,0 +1,1 @@
+This is just a simple application which use to add a shopping items into a list. 
