@@ -1,0 +1,150 @@
+/***************************************************************************
+ *
+ *   Student Id  : s3295715
+ *   Name        : Chao Ruan
+ *
+ ***************************************************************************/
+5.1 Equality search (heap file)
+
+Pagesize: 100
+Time/Date   | Time(ms)
+---------------------------
+13:58-24-03 | 2233385.40
+14:31-24-03 | 2237162.57
+15:08-24-03 | 2214711.20
+15:48-24-03 | 2231344.92
+16:25-24-03 | 2230073.12
+17:09-24-03 | 2259214.37
+17:44-24-03 | 2234213.12
+18:21-24-03 | 2212211.62 
+19:32-24-03 | 2213129.78
+20:28-24-03 | 2224471.81
+---------------------------
+Average: 2228991.79
+Std Dev: 14106.66
+---------------------------
+
+Pagesize: 1000
+Time/Date   | Time(ms)
+---------------------------
+12:31-25-03 | 2170087.24
+13:18-25-03 | 2169814.32
+13:59-25-03 | 2172210.29
+14:37-25-03 | 2091221.72
+15:17-25-03 | 2152339.64
+16:04-25-03 | 2171123.45
+16:49-25-03 | 2098912.17
+17:28-25-03 | 2213219.54
+18:32-25-03 | 2098814.21
+20:14-25-03 | 2155433.77
+---------------------------
+Average: 2149317.63
+Std Dev: 40065.91
+---------------------------
+
+Pagesize: 10000
+Time/Date   | Time(ms)
+---------------------------
+13:14-26-03 | 2291696.55
+13:58-26-03 | 2273422.35
+14:12-26-03 | 2291123.92
+15:03-26-03 | 2262334.82
+15:49-26-03 | 2281423.72
+16:34-26-03 | 2295475.12
+17:19-26-03 | 2123862.82
+18:12-26-03 | 2102353.22
+19:07-26-03 | 2321234.53
+22:04-26-03 | 2112342.82
+---------------------------
+Average: 2235526.99
+Std Dev: 86168.64
+---------------------------
+
+5.2 Equality search (hash file)
+
+Pagesize: 100
+Time/Date   | Time(ms)
+---------------------------
+14:04-24-03 | 1458.04
+14:05-24-03 | 1535.38
+14:05-24-03 | 1392.74
+14:06-24-03 | 1416.01
+14:06-24-03 | 1387.14
+14:07-24-03 | 1394.55
+14:07-24-03 | 1384.27
+14:07-24-03 | 1419.28
+14:08-24-03 | 1400.60
+14:08-24-03 | 1414.46
+---------------------------
+Average: 1420.25
+Std Dev: 45.86
+---------------------------
+
+Pagesize: 1000
+Time/Date   | Time(ms)
+---------------------------
+14:10-24-03 | 9262.61
+14:10-24-03 | 9265.21
+14:11-24-03 | 9175.63
+14:11-24-03 | 9274.82
+14:12-24-03 | 9352.70
+14:12-24-03 | 9332.16
+14:13-24-03 | 9365.03
+14:13-24-03 | 9275.77
+14:14-24-03 | 9308.35
+14:14-24-03 | 9301.04
+---------------------------
+Average: 9291.33
+Std Dev: 54.42
+---------------------------
+
+Pagesize: 10000
+Time/Date   | Time(ms)
+---------------------------
+14:15-24-03 | 88725.62 
+14:17-24-03 | 90946.80
+14:19-24-03 | 91766.82
+14:21-24-03 | 88314.53
+14:23-24-03 | 92198.95
+14:25-24-03 | 91805.88
+14:27-24-03 | 93614.69
+14:29-24-03 | 88944.75 
+14:31-24-03 | 89415.38
+14:33-24-03 | 90285.45 
+---------------------------
+Average: 90601.89
+Std Dev: 1749.91
+---------------------------
+
+5.3: Comparison of approaches
+
+The advantage of a heap file is easy to understand, it is simplicity, 
+it store all the record without any order, it is easy the implement 
+and write a heap file can be really fast than write a hash file. 
+But it bring the disadvantage of heap file, which is take really 
+long time to search the result, since it useing linear search.
+
+On the other hand, Hash file may not easy to implement, and it 
+have to take few time to write the data into the binary file. 
+But the advantage of a hash file is really fast, only take few 
+seconds to found all the results.
+
+For heap file, the search time should be decrease when the pagesize
+is increase, but the result is not, I think it's should be the problem
+with the yallara, since many people are using it, the result may not
+correct.
+
+Also as expected for hash file, when pagesize increases, the 
+time taken searching for record is also increase.
+
+5.4 Theory
+1. if carrying ot range searches, I think the resutl will be change.
+Because the heap file will be faster than hash file. But personal 
+I prefer to use a sorted file. Becaese fcor heap filw it will take
+BD time for range search, and hash file will take 1.25BD time. The
+Sorted file will be the fast one - D(log2B + number of match pages)
+
+2. it insearting new records into the file, I think heap and hash file
+will all be the best chose, because for both of them, they only will take
+2D time the insert the record, but for sorted file, it will thake some search
+time and also BD time to insert the record.
