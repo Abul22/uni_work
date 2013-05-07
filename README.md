@@ -9,6 +9,7 @@
 	* OSP-A2
 * 2013-s1
   * DS-A1
+  * AA-A1
 
 
 Here are some works I done when I doing my computer science degree in RMIT. Most of these projects are quite simple , if you have any problem, fell free to contact me by following ways:
@@ -16,4 +17,5 @@ Here are some works I done when I doing my computer science degree in RMIT. Most
 * <chaoruan818@gmail.com>
 * [Linkedin](http://lnkd.in/_YVFRm)
 * [Twitter](https://twitter.com/chaoruan)
+* [Blog](rcgary.github.io)
 * [微博](http://weibo.com/rcgary)

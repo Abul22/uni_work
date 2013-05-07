@@ -1,0 +1,84 @@
+Q1. How the heuristic works?
+
+The heuristic build based on theses functions
+  int check_attack()
+  int check_type()
+  int check_three()
+The idea is check all the possible threate based on current state, the basic 
+idea is check is any possible way to have the point in row, and also will
+check if it exit any possible threat from other view, the score will calculate
+after different setting of these situation.
+==============================================================================
+==============================================================================
+
+
+Q2 Strength
+
+It goes without saying that it can easily beta Radom agent and Simple agent,
+and When it face Medium, it will still got really good result, here is some 
+result I got after increase the rounds to 50.
+
+First time
+***************** Game results *****************
+
+Results of s3295715 vs. random (50 rounds):
+
+   s3295715: 50   random: 0
+   *** s3295715 beat random ***
+
+   Results of s3295715 vs. simple (50 rounds):
+
+   s3295715: 44   simple: 4   (2 ties)
+   *** s3295715 beat simple ***
+
+   Results of s3295715 vs. medium (50 rounds):
+
+   s3295715: 39   medium: 10   (1 tie)
+   *** s3295715 beat medium ***
+==============================================================================
+Second time
+***************** Game results *****************
+
+Results of s3295715 vs. random (50 rounds):
+
+   s3295715: 50   random: 0
+   *** s3295715 beat random ***
+
+   Results of s3295715 vs. simple (50 rounds):
+
+   s3295715: 47   simple: 2   (1 tie)
+   *** s3295715 beat simple ***
+
+   Results of s3295715 vs. medium (50 rounds):
+
+   s3295715: 32   medium: 14   (4 ties)
+   *** s3295715 beat medium ***
+==============================================================================
+Third time
+***************** Game results *****************
+
+Results of s3295715 vs. random (50 rounds):
+
+   s3295715: 50   random: 0
+   *** s3295715 beat random ***
+
+   Results of s3295715 vs. simple (50 rounds):
+
+   s3295715: 49   simple: 0   (1 tie)
+   *** s3295715 beat simple ***
+
+   Results of s3295715 vs. medium (50 rounds):
+
+   s3295715: 39   medium: 9   (2 ties)
+   *** s3295715 beat medium ***
+==============================================================================
+
+
+Q3 Weakness
+As we can see from the result, this agent can guarantee 100% beat random,
+but there a small chance that agent will loss some games when it face simple.
+For medium agent, my agent will sure to beat it, but may still loss few games.
+
+Other weakness of my agent is the speed, because every step, it will go for a
+large calculate for the score, it need a few time to achieve it. So the speed 
+may not very fast.
