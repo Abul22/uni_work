@@ -14,6 +14,7 @@ extern          "C" {
 #endif  /** cplusplus **/
 
 #include "libutil.h"
+#include "libset.h"
 
    /* Link List data types */
 typedef struct lnode lnode_t;
@@ -30,7 +31,7 @@ typedef struct {
 } list_t;
 
 list_t *list_create(void);
-void list_free(list_t * list);
+void list_free(list_t * list, void(*free_fptr)(set_t*));
 
 /* Insert items in an order defined by cmp_fptr */
 list_t *list_insert_inorder(list_t * list, void *value,

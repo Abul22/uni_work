@@ -17,17 +17,20 @@ extern          "C" {
 #include "libset.h"
 #include "sl_list.h"
 
-   /** Finger Search Operations for array sets **/
-int linear_fsearch(int *set, int len, int key);
-int binary_fsearch(int *set, int len, int key);
-int interpolation_fsearch(int *set, int len, int key);
-int exponential_fsearch(int *set, int len, int key);
+    /** Finger Search Operations for array sets **/
+    int linear_fsearch(int *set, int len, int key);
+    int binary_fsearch(int *set, int len, int key);
+    int interpolation_fsearch(int *set, int len, int key);
+    int exponential_fsearch(int *set, int len, int key);
 
-   /** Intersect Algorithms **/
-set_t *svs(list_t * list, int (*srch_alg) (int *, int, int));
-set_t *sequential(list_t * list, int (*srch_alg) (int *, int, int));
-set_t *adaptive(list_t * list, int (*srch_alg) (int *, int, int));
+    /** Intersect Algorithms **/
+    set_t *svs(list_t * list, int (*srch_alg) (int *, int, int));
+    set_t *sequential(list_t * list, int (*srch_alg) (int *, int, int));
+    set_t *adaptive(list_t * list, int (*srch_alg) (int *, int, int));
 
+    set_t * binary_intersection(set_t * set,set_t *n_set,int (*srch_alg)(int *,int,int));
+    /*add by myself to reset the finger */
+    void reset_finger(list_t* list);
 #ifdef __cplusplus
 }
 #endif	/** cplusplus **/

@@ -33,6 +33,10 @@ extern          "C" {
 
 #define REALLOC_INCREMENT 256
 
+#define PATH_LENGTH 60
+
+#define USUAL_ARGC 7
+
 #ifndef TRUE
 #define TRUE 1
 #endif

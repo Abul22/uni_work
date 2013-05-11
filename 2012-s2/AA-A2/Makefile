@@ -15,33 +15,43 @@
 
 # The name of the application we're trying to generate
 TARGET = set_intersect
+TARGET2 = fsearch-main 
 
 SRC = libutil.c libset.c libintersect.c sl_list.c main.c
 HDR = libutil.h libset.h sl_list.h libintersect.h
+
+SRC2 = libutil.c libset.c libintersect.c sl_list.c fsearch-main.c
+HDR2 = libutil.h libset.h sl_list.h libintersect.h
 
 # The following three lines can be used to automatically generate the SRC, HDR
 # and OBJ variables instead of doing it statically as above
 #SRC := $(wildcard *.c)
 #HDR := $(wildcard *.h)
 OBJ := $(SRC:.c=.o)
+OBJ2 := $(SRC2:.c=.o)
 
 # These variables are used by make in all of it's automatic rules.
 # Specifically, use CFLAGS for the "-g -O0" option if you want to do debugging,
 # and LDFLAGS for the "-lm" option if you are using the math library.
 CC = gcc
-#CFLAGS = -W -Wall -ansi -O3
-CFLAGS = -W -Wall -ansi -g -O0 -D_XOPEN_SOURCE=500
+#CFLAGS = -W -Wall -O3 -D_XOPEN_SOURCE=500
+CFLAGS = -W -Wall -g -O0 -D_XOPEN_SOURCE=500 -gstabs
 LDFLAGS = -lm
+
+all: $(TARGET) $(TARGET2)
 
 # Default target, builds your entire project.  Simply running 'make' will run
 # this target
 $(TARGET) : $(OBJ)
 	$(CC) $(LDFLAGS) -o $@ $(OBJ)
+
+$(TARGET2) : $(OBJ2)
+	$(CC) $(LDFLAGS) -o $@ $(OBJ2)
     
 # This generates the dependencies between your various .c and .h files, using
 # the c compiler's -MM option.
-depend : $(SRC) $(HDR)
-	$(CC) $(CFLAGS) -MM $(SRC) > depend
+depend : $(SRC) $(HDR) $(SRC2) $(HDR2)
+	$(CC) $(CFLAGS) -MM $(SRC) fsearch-main.c > depend
 
 # This includes the dependencies made with the previous rule, and in fact forces
 # them to be generated.
@@ -57,8 +67,5 @@ test :
 	echo "TBD"
 
 clean :
-	-rm -f $(OBJ) depend
-
-clobber :
-	-rm -f $(TARGET) $(OBJ) depend
+	-rm -f $(TARGET) $(TARGET2) $(OBJ) $(OBJ2) depend
 	-rm -f *~ 

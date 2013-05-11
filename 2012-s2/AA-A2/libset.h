@@ -15,6 +15,7 @@ extern          "C" {
 
 #include "libutil.h"
 
+#define DEFAULT_SET_SIZE    128
    /** Basic Set Type **/
 typedef struct {
    int   *data; /* set elements */
@@ -32,12 +33,16 @@ typedef struct {
    void set_destroy(set_t * set);
    int set_freeze(set_t * set);
 
+   /*add by myself for read data into set */
+   void  read_data(set_t *pset,char *pname);
+
 	/** Search Operations for array sets **/
    int   linear_search(int *set, int len, int key);
    int   binary_search(int *set, int len, int key);
    int   interpolation_search(int *set, int len, int key);
    int   exponential_search(int *set, int len, int key);
-
+   int cntcmp (const void *sp1,const void *sp2);
+int fingercmp(const void *sp1,const void *sp2);
 #ifdef __cplusplus
 }
 #endif				/** cplusplus **/
