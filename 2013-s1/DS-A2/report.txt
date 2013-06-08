@@ -1,0 +1,225 @@
+1 Nested Loops Join
+
+1.1 Character as outer_relation
+
+Buffer: 3
+Page Size: 512
+-------------------
+Date     | Time(ms)
+-------------------
+25-05-13 | 18846.91
+25-05-13 | 18778.81
+25-05-13 | 18668.31
+25-05-13 | 18759.22
+25-05-13 | 18646.35
+25-05-13 | 18639.60
+25-05-13 | 18755.53
+25-05-13 | 18736.91
+25-05-13 | 18811.48
+25-05-13 | 18575.19
+-------------------
+Average: 18721.83
+Std Dev: 85.9694
+
+
+Buffer: 10
+Page Size: 1024
+-------------------
+Date     | Time(ms)
+-------------------
+25-05-13 | 1376.12
+25-05-13 | 1368.07
+25-05-13 | 1368.12
+25-05-13 | 1371.86
+25-05-13 | 1372.94
+25-05-13 | 1361.73
+25-05-13 | 1375.76
+25-05-13 | 1370.11
+25-05-13 | 1361.86
+25-05-13 | 1366.20
+-------------------
+Average: 1369.27
+Std Dev: 5.09
+
+Buffer: 50
+Page Size: 4096
+-------------------
+Date     | Time(ms)
+-------------------
+25-05-13 | 410.37
+25-05-13 | 411.28
+25-05-13 | 418.46
+25-05-13 | 420.25
+25-05-13 | 408.66
+25-05-13 | 409.89
+25-05-13 | 410.82
+25-05-13 | 418.96
+25-05-13 | 418.72
+25-05-13 | 410.00
+-------------------
+Average: 413.74
+Std Dev: 4.68
+
+1.2 Guild as outer_relation
+
+Buffer: 3
+Page Size: 512
+-------------------
+Date     | Time(ms)
+-------------------
+25-05-13 | 18684.38
+25-05-13 | 18709.07
+25-05-13 | 18692.59
+25-05-13 | 18666.97
+25-05-13 | 18625.00
+25-05-13 | 18753.49
+25-05-13 | 18641.17
+25-05-13 | 18615.39
+25-05-13 | 18588.93
+25-05-13 | 18742.23
+-------------------
+Average: 18671.92
+Std Dev: 54.58
+
+Buffer: 10
+Page Size: 1024
+-------------------
+Date     | Time(ms)
+-------------------
+25-05-13 | 1339.95
+25-05-13 | 1356.38
+25-05-13 | 1359.60
+25-05-13 | 1363.38
+25-05-13 | 1363.46
+25-05-13 | 1359.57
+25-05-13 | 1348.73
+25-05-13 | 1364.23
+25-05-13 | 1345.28
+25-05-13 | 1350.19
+-------------------
+Average: 1355.07
+Std Dev: 8.52
+
+Buffer: 50
+Page Size: 4096
+-------------------
+Date     | Time(ms)
+-------------------
+25-05-13 | 503.89
+25-05-13 | 537.63
+25-05-13 | 490.03
+25-05-13 | 530.14
+25-05-13 | 491.24
+25-05-13 | 506.62
+25-05-13 | 502.68
+25-05-13 | 504.90
+25-05-13 | 490.18
+25-05-13 | 504.63
+-------------------
+Average: 506.19
+Std Dev: 16.07
+
+1.3
+
+i.
+  I would expect when the buffer size increases, the performance of the
+  join will also speeds up. Increasing the buffer size means that the inner
+  file's scans number will be fewer.
+
+ii.
+  The results of my experiments are in line my expectations that increasing
+  the number of buffers reduces the number of comparisons to the inner file
+  required and speeds up the join.
+
+iii.
+  I run few tests and start increase the buffer size from 10 to 150, the
+  results show that when buffer size is 100, the performance will be best.
+  After 100, it start slow down, so that mean there is a cutoff point where
+  more buffers is  not significantly beneficial, so estimate around 100
+  buffers would be suitable
+
+iii.
+  Using Characters as the outer relation is on the average faster, regardless
+  of buffer size. This is likely because teh Guilds relation is smaller at
+  4000 records compared to 10000, so a smaller number of records need to be
+  compared when scanning the inner file.
+
+1.4
+
+My hash table is an array of Entry structs, which have a key and a void* value
+and a pointer to the next Entry.
+The hash table uses chaining to deal with collisions. If a collision occurs,
+the entry is set to the head of the linked list. As the field we are hashing
+on is an integer, a suitable hash function would be one from the set of
+universal hash functions. The functions should perform well regardless of key
+distribution. The hash function is use ((c * k + d) % p) % t, where k is the
+guild_id and c,d,p are large prime numbers, the t is the size of the hash table
+which was fixed at 250 after some experiments with different sizes.
+
+
+2 Query Plans:
+
+My program now support all possible queries:
+
+a).
+  ./dbquery -p 512 -b 3 select name Inepsan
+  The program will start the select function done by task 1.2 - select from
+  relation using heap file
+
+b)
+  ./dbquery -p 512 -b 3 from character.512 join Guild.512
+  The program will start with nested loop join which done by task 1.3 - Nested
+  loops join.
+
+c)
+  ./dbquery -p 512 -b 3 from character.512 join Guild.512 select name Inepsan
+  The program will start with nested loop join first, and select the correct
+  value in different attributes.
+
+d)
+  ./dbquery -p 512 -b 3 from character.512 select name Inepsan join Guild.512
+  The program will start with nested loop join first, and select the correct
+  value in different attributes.
+
+The dbquery now are also support the all the flags:
+  -p: page size
+  -b: buffer size
+  -d: directory
+  -t: flag for show result
+
+The advantages of pushing selections through joins in query plans:
+	1) Easy to understand how the query is asking
+	2) After the join, the program will show up the select result
+The disadvantages is
+	1) The program will be slow, because it will select the value after
+	   join.
+	2) Put the selections into the query, it will required more implement
+
+
+3 Projection
+
+My program is also support projection operator, which means in the query, it
+can support different attributes for both characters and guilds:
+Character: name | species | class | id | guild_id
+Guild: guild_id | g_name
+It work with key word 'project'
+eg.
+./dbquery from character.512 select name Inepsan join guild.512 project name
+result: Inepsan
+./dbquery from character.512 select name Inepsan join guild.512 project id
+result: 191133
+./dbquery from character.512 select name Inepsan join guild.512 project class
+result: 4
+./dbquery from character.512 select name Inepsan join guild.512 project guild_id
+result: 1127
+./dbquery from character.512 select name Inepsan join guild.512 project g_name
+result: SHAUGHNESSY
+./dbquery from character.512 select name Inepsan join guild.512 project species
+result: 5
+./dbquery from character.512 select name Inepsan join guild.512 project XXXX
+result: 
+Wrong input wiht project, please input these arrtirbute
+name | species | id | class | guild_id | g_name
+
+
+
